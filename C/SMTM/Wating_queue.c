@@ -20,12 +20,14 @@ typedef struct Queue //Queue 구조체 정의
 void InitQueue(Queue *queue);//큐 초기화
 int IsEmpty(Queue *queue); //큐가 비었는지 확인
 void Enqueue(Queue *queue, char* data); //큐에 보관
+void Dequeue(Queue *queue);
 void printList(Queue *queue);
 int SelectMenu();
 
 int main(void)
 {
-	int i;
+	int i, j;
+	int num;
 	char *str = (char *)malloc((sizeof(char)) * 8);
 
 	Queue queue;
@@ -33,14 +35,17 @@ int main(void)
 
 	while ((i = SelectMenu()) != 3) {
 		switch (i) {
-		case 1: scanf("%s", str); Enqueue(&queue, str); break;
+		case 1:
+			printf("Input Your number of people : ");	scanf("%d", &num);
+			for (j = 0; j < num; j++)
+			{
+				scanf("%s", str); Enqueue(&queue, str);
+			}
+			printf("Input Delete number of People : ");	scanf("%d", &num);
+			for (j = 0; j < num; j++)	Dequeue(&queue);
+				break;
 		case 2: printList(&queue);  break;
 		}
-	}
-
-	for (i = 1; i <= 5; i++)//1~5까지 큐에 보관
-	{
-		Enqueue(&queue, i);
 	}
 
 	printf("\n");
@@ -91,7 +96,7 @@ void printList(Queue *queue)
 		printf("%s\n", re);
 	}
 	free(re);
-	printf('\n');
+	printf("\n");
 	return;
 }
 
@@ -100,4 +105,18 @@ int SelectMenu() {
 	printf(" 1. Input Name 2. Checking List 3.Exit\n====================================\n");
 	scanf("%d", &i);
 	return i;
+}
+
+void Dequeue(Queue *queue)
+{
+	Node *now;
+	if (IsEmpty(queue))
+	{
+		printf("ERROR!\n");
+		return;
+	}
+	now = queue->front;//맨 앞의 노드를 now에 기억
+	queue->front = now->next;//맨 앞은 now의 다음 노드로 설정
+	free(now);//now 소멸
+	queue->count--;//보관 개수를 1 감소
 }
