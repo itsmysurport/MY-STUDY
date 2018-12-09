@@ -40,7 +40,7 @@ def scanMotion(width, height):
     data1 = takeMotionImage(width, height)          # 지금 카메라에 찍힌 이미지를 data1 오브젝트에저장
     while not motionFound:  # 모션감지가 될 때 까지 반복
         data2 = takeMotionImage(width, height)      # 지금 카메라에 찍힌 이미지를 data2 오브젝트에저장
-        diffCount = 0L;     # 카운트 설정
+        diffCount = 0       # 카운트 설정
 
         # width와 height만큼의 픽셀을 하나씩 하나씩 다름을 비교합니다.
         for w in range(0, width):
@@ -62,11 +62,12 @@ def motionDetection():
     print "Scanning for Motion threshold=%i sensitivity=%i...  % (threshold, sensitivity)
     while True:
         if scanMotion(224, 160):                # 모션이 감지되면,
-            print "Motion detected"
-            event()                             # 데이터를 전송합니다
+        print("Motion detected")
+        event()                             # 데이터를 전송합니다
 
 if __name__ == '__main__':
     try:
+        print("POWER ON")
         motionDetection()
     finally:
-        print "Exiting Program"
+        print("Exiting Program")
